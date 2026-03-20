@@ -1,0 +1,21 @@
+# Build outputs
+bin/
+obj/
+dist/
+build/
+
+# Frontend dependencies
+node_modules/
+
+# IDE/editor
+.vs/
+.vscode/
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Logs and env
+*.log
+.env
+.env.*
