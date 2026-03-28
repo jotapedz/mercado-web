@@ -71,7 +71,12 @@ export default function VendasTab({ clientes, produtos, vendas, onRegistrarVenda
   return (
     <Grid container spacing={2}>
       <Grid size={{ xs: 12, md: 5 }}>
-        <Paper sx={{ p: 2 }}>
+        <Paper
+          sx={{
+            p: 2.5,
+            background: "linear-gradient(145deg, rgba(10,16,30,0.95), rgba(19,33,56,0.9))"
+          }}
+        >
           <Typography variant="h6" gutterBottom>
             Nova venda
           </Typography>
@@ -130,14 +135,18 @@ export default function VendasTab({ clientes, produtos, vendas, onRegistrarVenda
       </Grid>
 
       <Grid size={{ xs: 12, md: 7 }}>
-        <Paper sx={{ p: 2, mb: 2 }}>
+        <Paper sx={{ p: 2.5, mb: 2 }}>
           <Typography variant="h6" gutterBottom>
             Itens da venda atual
           </Typography>
           <Stack spacing={1}>
             {itens.length === 0 && <Typography color="text.secondary">Nenhum item adicionado.</Typography>}
             {itens.map((item, index) => (
-              <Paper key={`${item.produtoId}-${index}`} variant="outlined" sx={{ p: 1.5 }}>
+              <Paper
+                key={`${item.produtoId}-${index}`}
+                variant="outlined"
+                sx={{ p: 1.75, backgroundColor: "rgba(11,16,32,0.78)" }}
+              >
                 <Typography>
                   {item.nome} x{item.quantidade} - R$ {(item.quantidade * item.preco).toFixed(2)}
                 </Typography>
@@ -146,14 +155,18 @@ export default function VendasTab({ clientes, produtos, vendas, onRegistrarVenda
           </Stack>
         </Paper>
 
-        <Paper sx={{ p: 2 }}>
+        <Paper sx={{ p: 2.5 }}>
           <Typography variant="h6" gutterBottom>
             Histórico de vendas
           </Typography>
           <Stack spacing={1}>
             {vendas.length === 0 && <Typography color="text.secondary">Nenhuma venda registrada.</Typography>}
             {vendas.map((venda) => (
-              <Paper key={venda.id} variant="outlined" sx={{ p: 1.5 }}>
+              <Paper
+                key={venda.id}
+                variant="outlined"
+                sx={{ p: 1.75, backgroundColor: "rgba(11,16,32,0.78)" }}
+              >
                 <Typography fontWeight={600}>
                   Venda #{venda.id} - Cliente: {venda.clienteNome}
                 </Typography>

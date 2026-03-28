@@ -30,8 +30,13 @@ Sistema fullstack para gerenciamento de mercado, com frontend em React + Materia
 
 ## Configuracao do banco (PostgreSQL)
 
-1. Crie um banco chamado `mercado_db`.
-2. Ajuste a connection string em `backend/appsettings.json`:
+1. Suba o PostgreSQL com Docker Compose na raiz do projeto:
+
+```bash
+docker compose up -d
+```
+
+2. A API usa por padrao esta connection string em `backend/appsettings.json`:
 
 ```json
 {
@@ -41,17 +46,22 @@ Sistema fullstack para gerenciamento de mercado, com frontend em React + Materia
 }
 ```
 
+3. Se quiser mudar as credenciais sem editar arquivo, use variavel de ambiente:
+
+```bash
+ConnectionStrings__DefaultConnection=Host=localhost;Port=5432;Database=mercado_db;Username=postgres;Password=postgres
+```
+
 ## Rodando o backend
 
 No terminal, dentro de `backend`:
 
 ```bash
 dotnet restore
-dotnet tool install --global dotnet-ef
-dotnet ef migrations add InitialCreate
-dotnet ef database update
 dotnet run
 ```
+
+As migracoes sao aplicadas automaticamente no startup da API.
 
 API disponivel em:
 

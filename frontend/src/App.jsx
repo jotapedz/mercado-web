@@ -3,8 +3,10 @@ import {
   Alert,
   AppBar,
   Box,
+  Chip,
   CircularProgress,
   Container,
+  Paper,
   Tab,
   Tabs,
   Toolbar,
@@ -76,29 +78,64 @@ export default function App() {
   };
 
   return (
-    <Box sx={{ minHeight: "100vh", bgcolor: "#f5f7fa" }}>
-      <AppBar position="static">
+    <Box
+      sx={{
+        minHeight: "100vh",
+        background:
+          "radial-gradient(circle at 10% 10%, rgba(20,184,166,0.18), transparent 35%), radial-gradient(circle at 90% 25%, rgba(245,158,11,0.16), transparent 40%), #070b14"
+      }}
+    >
+      <AppBar position="sticky" elevation={0}>
         <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1, letterSpacing: 0.2 }}>
             Sistema de Gerenciamento de Mercado
           </Typography>
+          <Chip
+            label="Online"
+            color="primary"
+            size="small"
+            sx={{ color: "#042c2a", fontWeight: 700 }}
+          />
         </Toolbar>
       </AppBar>
 
-      <Container sx={{ py: 3 }}>
-        {carregando && <CircularProgress sx={{ mb: 2 }} />}
+      <Container sx={{ py: 4 }}>
+        <Paper
+          sx={{
+            p: { xs: 2.5, md: 3.5 },
+            mb: 3,
+            background:
+              "linear-gradient(145deg, rgba(13,18,32,0.92) 0%, rgba(13,30,47,0.92) 100%)"
+          }}
+        >
+          <Typography variant="h4" sx={{ mb: 1 }}>
+            Controle completo do seu mercado
+          </Typography>
+          <Typography color="text.secondary">
+            Visualize vendas, estoque e clientes em uma interface escura moderna com foco em leitura e produtividade.
+          </Typography>
+        </Paper>
+
+        {carregando && <CircularProgress sx={{ mb: 2, color: "primary.main" }} />}
         {erro && (
           <Alert severity="error" sx={{ mb: 2 }}>
             {erro}
           </Alert>
         )}
 
-        <Tabs value={tab} onChange={(_, value) => setTab(value)} sx={{ mb: 2 }}>
-          <Tab label="Dashboard" />
-          <Tab label="Clientes" />
-          <Tab label="Produtos" />
-          <Tab label="Vendas" />
-        </Tabs>
+        <Paper sx={{ p: 1.5, mb: 2.5 }}>
+          <Tabs
+            value={tab}
+            onChange={(_, value) => setTab(value)}
+            variant="scrollable"
+            scrollButtons="auto"
+          >
+            <Tab label="Dashboard" />
+            <Tab label="Clientes" />
+            <Tab label="Produtos" />
+            <Tab label="Vendas" />
+          </Tabs>
+        </Paper>
 
         {tab === 0 && <Dashboard clientes={clientes} produtos={produtos} vendas={vendas} />}
         {tab === 1 && <ClientesTab clientes={clientes} onAddCliente={addCliente} />}

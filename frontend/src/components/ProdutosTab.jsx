@@ -43,7 +43,13 @@ export default function ProdutosTab({ produtos, onAddProduto, onReporEstoque }) 
   return (
     <Grid container spacing={2}>
       <Grid size={{ xs: 12, md: 4 }}>
-        <Paper sx={{ p: 2, mb: 2 }}>
+        <Paper
+          sx={{
+            p: 2.5,
+            mb: 2,
+            background: "linear-gradient(145deg, rgba(10,16,30,0.95), rgba(19,33,56,0.9))"
+          }}
+        >
           <Typography variant="h6" gutterBottom>
             Novo produto
           </Typography>
@@ -70,7 +76,7 @@ export default function ProdutosTab({ produtos, onAddProduto, onReporEstoque }) 
           </Stack>
         </Paper>
 
-        <Paper sx={{ p: 2 }}>
+        <Paper sx={{ p: 2.5 }}>
           <Typography variant="h6" gutterBottom>
             Reposição de estoque
           </Typography>
@@ -95,14 +101,18 @@ export default function ProdutosTab({ produtos, onAddProduto, onReporEstoque }) 
       </Grid>
 
       <Grid size={{ xs: 12, md: 8 }}>
-        <Paper sx={{ p: 2 }}>
+        <Paper sx={{ p: 2.5 }}>
           <Typography variant="h6" gutterBottom>
             Lista de produtos
           </Typography>
           <Stack spacing={1}>
             {produtos.length === 0 && <Typography color="text.secondary">Nenhum produto cadastrado.</Typography>}
             {produtos.map((produto) => (
-              <Paper key={produto.id} variant="outlined" sx={{ p: 1.5 }}>
+              <Paper
+                key={produto.id}
+                variant="outlined"
+                sx={{ p: 1.75, backgroundColor: "rgba(11,16,32,0.78)" }}
+              >
                 <Typography fontWeight={600}>
                   #{produto.id} - {produto.nome}
                 </Typography>

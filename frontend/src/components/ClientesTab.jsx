@@ -22,7 +22,12 @@ export default function ClientesTab({ clientes, onAddCliente }) {
   return (
     <Grid container spacing={2}>
       <Grid size={{ xs: 12, md: 5 }}>
-        <Paper sx={{ p: 2 }}>
+        <Paper
+          sx={{
+            p: 2.5,
+            background: "linear-gradient(145deg, rgba(10,16,30,0.95), rgba(19,33,56,0.9))"
+          }}
+        >
           <Typography variant="h6" gutterBottom>
             Novo cliente
           </Typography>
@@ -47,14 +52,18 @@ export default function ClientesTab({ clientes, onAddCliente }) {
         </Paper>
       </Grid>
       <Grid size={{ xs: 12, md: 7 }}>
-        <Paper sx={{ p: 2 }}>
+        <Paper sx={{ p: 2.5 }}>
           <Typography variant="h6" gutterBottom>
             Lista de clientes
           </Typography>
           <Stack spacing={1}>
             {clientes.length === 0 && <Typography color="text.secondary">Nenhum cliente cadastrado.</Typography>}
             {clientes.map((cliente) => (
-              <Paper key={cliente.id} variant="outlined" sx={{ p: 1.5 }}>
+              <Paper
+                key={cliente.id}
+                variant="outlined"
+                sx={{ p: 1.75, backgroundColor: "rgba(11,16,32,0.78)" }}
+              >
                 <Typography fontWeight={600}>{cliente.nome}</Typography>
                 <Typography variant="body2" color="text.secondary">
                   Documento: {cliente.documento}
