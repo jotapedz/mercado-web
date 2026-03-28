@@ -10,8 +10,8 @@ Sistema fullstack para gerenciamento de mercado, com frontend em React + Materia
 
 ## Estrutura do projeto
 
-- `frontend`: aplicacao web (interface)
-- `backend`: API REST e acesso ao banco
+- `PORTAL VENDAS`: aplicacao web (interface)
+- `API WEB`: API REST e acesso ao banco
 
 ## Funcionalidades
 
@@ -36,7 +36,7 @@ Sistema fullstack para gerenciamento de mercado, com frontend em React + Materia
 docker compose up -d
 ```
 
-2. A API usa por padrao esta connection string em `backend/appsettings.json`:
+2. A API usa por padrao esta connection string em `API WEB/appsettings.json`:
 
 ```json
 {
@@ -54,7 +54,7 @@ ConnectionStrings__DefaultConnection=Host=localhost;Port=5432;Database=mercado_d
 
 ## Rodando o backend
 
-No terminal, dentro de `backend`:
+No terminal, dentro de `API WEB`:
 
 ```bash
 dotnet restore
@@ -70,7 +70,7 @@ API disponivel em:
 
 ## Rodando o frontend
 
-No terminal, dentro de `frontend`:
+No terminal, dentro de `PORTAL VENDAS`:
 
 ```bash
 npm install

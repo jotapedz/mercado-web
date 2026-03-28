@@ -53,6 +53,18 @@ export default function App() {
     setClientes((prev) => [...prev, novo]);
   };
 
+  const editarCliente = async (clienteId, nome, documento) => {
+    const atualizado = await api.atualizarCliente(clienteId, { nome, documento });
+    setClientes((prev) =>
+      prev.map((cliente) => (cliente.id === clienteId ? atualizado : cliente))
+    );
+  };
+
+  const excluirCliente = async (clienteId) => {
+    await api.excluirCliente(clienteId);
+    setClientes((prev) => prev.filter((cliente) => cliente.id !== clienteId));
+  };
+
   const addProduto = async (nome, preco, estoque) => {
     const novo = await api.criarProduto({ nome, preco, estoque });
     setProdutos((prev) => [...prev, novo]);
@@ -137,8 +149,22 @@ export default function App() {
           </Tabs>
         </Paper>
 
-        {tab === 0 && <Dashboard clientes={clientes} produtos={produtos} vendas={vendas} />}
-        {tab === 1 && <ClientesTab clientes={clientes} onAddCliente={addCliente} />}
+        {tab === 0 && (
+          <Dashboard
+            clientes={clientes}
+            produtos={produtos}
+            vendas={vendas}
+            onCardClick={(targetTab) => setTab(targetTab)}
+          />
+        )}
+        {tab === 1 && (
+          <ClientesTab
+            clientes={clientes}
+            onAddCliente={addCliente}
+            onEditarCliente={editarCliente}
+            onExcluirCliente={excluirCliente}
+          />
+        )}
         {tab === 2 && (
           <ProdutosTab produtos={produtos} onAddProduto={addProduto} onReporEstoque={reporEstoque} />
         )}

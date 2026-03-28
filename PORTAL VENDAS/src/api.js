@@ -24,6 +24,10 @@ export const api = {
   listarClientes: () => request("/clientes"),
   criarCliente: (payload) =>
     request("/clientes", { method: "POST", body: JSON.stringify(payload) }),
+  atualizarCliente: (clienteId, payload) =>
+    request(`/clientes/${clienteId}`, { method: "PUT", body: JSON.stringify(payload) }),
+  excluirCliente: (clienteId) =>
+    request(`/clientes/${clienteId}`, { method: "DELETE" }),
   listarProdutos: () => request("/produtos"),
   criarProduto: (payload) =>
     request("/produtos", { method: "POST", body: JSON.stringify(payload) }),

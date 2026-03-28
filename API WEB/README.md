@@ -36,7 +36,7 @@ dotnet tool install dotnet-ef --version 8.0.12
 
 ## 4) Criar e aplicar migracoes
 
-No diretorio `backend`:
+No diretorio `API WEB`:
 
 ```bash
 dotnet restore
