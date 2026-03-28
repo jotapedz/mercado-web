@@ -23,6 +23,7 @@ export default function App() {
   const [clientes, setClientes] = useState([]);
   const [produtos, setProdutos] = useState([]);
   const [vendas, setVendas] = useState([]);
+  const [faturamentoPorDia, setFaturamentoPorDia] = useState([]);
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState("");
 
@@ -30,14 +31,16 @@ export default function App() {
     const carregarDados = async () => {
       try {
         setErro("");
-        const [clientesData, produtosData, vendasData] = await Promise.all([
+        const [clientesData, produtosData, vendasData, dashboardData] = await Promise.all([
           api.listarClientes(),
           api.listarProdutos(),
-          api.listarVendas()
+          api.listarVendas(),
+          api.obterDashboard()
         ]);
         setClientes(clientesData);
         setProdutos(produtosData);
         setVendas(vendasData);
+        setFaturamentoPorDia(dashboardData?.faturamentoPorDia ?? []);
       } catch (error) {
         setErro(error.message || "Falha ao carregar dados da API.");
       } finally {
@@ -83,9 +86,14 @@ export default function App() {
       itens: itens.map((item) => ({ produtoId: item.produtoId, quantidade: item.quantidade }))
     });
 
-    const [produtosData, vendasData] = await Promise.all([api.listarProdutos(), api.listarVendas()]);
+    const [produtosData, vendasData, dashboardData] = await Promise.all([
+      api.listarProdutos(),
+      api.listarVendas(),
+      api.obterDashboard()
+    ]);
     setProdutos(produtosData);
     setVendas(vendasData);
+    setFaturamentoPorDia(dashboardData?.faturamentoPorDia ?? []);
     return true;
   };
 
@@ -154,6 +162,7 @@ export default function App() {
             clientes={clientes}
             produtos={produtos}
             vendas={vendas}
+            faturamentoPorDia={faturamentoPorDia}
             onCardClick={(targetTab) => setTab(targetTab)}
           />
         )}

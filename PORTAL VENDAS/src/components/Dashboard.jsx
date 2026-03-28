@@ -2,9 +2,21 @@ import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
 import SellOutlinedIcon from "@mui/icons-material/SellOutlined";
 import TrendingUpOutlinedIcon from "@mui/icons-material/TrendingUpOutlined";
-import { Box, Card, CardActionArea, CardContent, Grid, Typography } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardActionArea,
+  CardContent,
+  Grid,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Typography
+} from "@mui/material";
 
-export default function Dashboard({ clientes, produtos, vendas, onCardClick }) {
+export default function Dashboard({ clientes, produtos, vendas, faturamentoPorDia, onCardClick }) {
   const estoqueTotal = produtos.reduce((acc, p) => acc + p.estoque, 0);
   const faturamento = vendas.reduce((acc, v) => acc + v.total, 0);
 
@@ -81,6 +93,43 @@ export default function Dashboard({ clientes, produtos, vendas, onCardClick }) {
           </Card>
         </Grid>
       ))}
+
+      <Grid size={{ xs: 12 }}>
+        <Card
+          sx={{
+            background: "linear-gradient(145deg, rgba(9,13,24,0.96) 0%, rgba(17,27,46,0.94) 100%)"
+          }}
+        >
+          <CardContent>
+            <Typography variant="h6" sx={{ mb: 1.5 }}>
+              Faturamento por dia
+            </Typography>
+
+            {faturamentoPorDia?.length ? (
+              <Table size="small">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Dia</TableCell>
+                    <TableCell align="right">Qtde. vendas</TableCell>
+                    <TableCell align="right">Total (R$)</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {faturamentoPorDia.map((linha) => (
+                    <TableRow key={linha.dia}>
+                      <TableCell>{new Date(`${linha.dia}T00:00:00`).toLocaleDateString("pt-BR")}</TableCell>
+                      <TableCell align="right">{linha.quantidadeVendas}</TableCell>
+                      <TableCell align="right">{Number(linha.total ?? 0).toFixed(2)}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            ) : (
+              <Typography color="text.secondary">Sem vendas registradas para exibir.</Typography>
+            )}
+          </CardContent>
+        </Card>
+      </Grid>
     </Grid>
   );
 }

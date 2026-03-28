@@ -21,6 +21,7 @@ async function request(path, options = {}) {
 }
 
 export const api = {
+  obterDashboard: () => request("/dashboard"),
   listarClientes: () => request("/clientes"),
   criarCliente: (payload) =>
     request("/clientes", { method: "POST", body: JSON.stringify(payload) }),

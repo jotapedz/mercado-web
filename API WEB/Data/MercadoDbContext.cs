@@ -1,12 +1,19 @@
 using MercadoApi.Entities;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MercadoApi.Data;
 
 public class MercadoDbContext : DbContext
 {
-    public MercadoDbContext(DbContextOptions<MercadoDbContext> options) : base(options)
+    private readonly IDataProtector _cpfProtector;
+
+    public MercadoDbContext(
+        DbContextOptions<MercadoDbContext> options,
+        IDataProtectionProvider dataProtectionProvider) : base(options)
     {
+        _cpfProtector = dataProtectionProvider.CreateProtector("MercadoApi.Cliente.Documento.v1");
     }
 
     public DbSet<Cliente> Clientes => Set<Cliente>();
@@ -16,6 +23,10 @@ public class MercadoDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        var documentoConverter = new ValueConverter<string, string>(
+            documento => ProtegerDocumento(documento),
+            documentoProtegido => DesprotegerDocumento(documentoProtegido));
+
         modelBuilder.Entity<Cliente>()
             .Property(c => c.Nome)
             .HasMaxLength(120)
@@ -23,7 +34,8 @@ public class MercadoDbContext : DbContext
 
         modelBuilder.Entity<Cliente>()
             .Property(c => c.Documento)
-            .HasMaxLength(30)
+            .HasMaxLength(512)
+            .HasConversion(documentoConverter)
             .IsRequired();
 
         modelBuilder.Entity<Produto>()
@@ -46,5 +58,33 @@ public class MercadoDbContext : DbContext
         modelBuilder.Entity<ItemVenda>()
             .Property(i => i.Subtotal)
             .HasColumnType("numeric(12,2)");
+    }
+
+    private string ProtegerDocumento(string documento)
+    {
+        if (string.IsNullOrWhiteSpace(documento))
+        {
+            return documento;
+        }
+
+        return _cpfProtector.Protect(documento);
+    }
+
+    private string DesprotegerDocumento(string documentoProtegido)
+    {
+        if (string.IsNullOrWhiteSpace(documentoProtegido))
+        {
+            return documentoProtegido;
+        }
+
+        try
+        {
+            return _cpfProtector.Unprotect(documentoProtegido);
+        }
+        catch
+        {
+            // Mantem compatibilidade com dados legados ainda nao criptografados.
+            return documentoProtegido;
+        }
     }
 }
